@@ -115,10 +115,10 @@ class ComicPageParser:
         self.image = Image.open(os.path.join(source[0], source[1])).convert('RGB')
         self.color = self.colorCheck()
         self.fill = self.fillCheck()
-        self.splitCheck()
         # backwards compatibility for Pillow >9.1.0
         if not hasattr(Image, 'Resampling'):
             Image.Resampling = Image
+        self.splitCheck()
 
     def getImageHistogram(self, image):
         histogram = image.histogram()
@@ -381,17 +381,17 @@ class Cover:
         else:
             self.tomeid = tomeid
         self.image = Image.open(source)
-        self.process()
         # backwards compatibility for Pillow >9.1.0
         if not hasattr(Image, 'Resampling'):
             Image.Resampling = Image
+        self.process()
 
     def process(self):
         self.image = self.image.convert('RGB')
         self.image = ImageOps.autocontrast(self.image)
         if not self.options.forcecolor:
             self.image = self.image.convert('L')
-        self.image.thumbnail(self.options.profileData[1], Image.LANCZO)
+        self.image.thumbnail(self.options.profileData[1], Image.Resampling.LANCZO)
         self.save()
 
     def save(self):
@@ -401,7 +401,7 @@ class Cover:
             raise RuntimeError('Failed to save cover.')
 
     def saveToKindle(self, kindle, asin):
-        self.image = self.image.resize((300, 470), Image.LANCZO)
+        self.image = self.image.resize((300, 470), Image.Resampling.LANCZO)
         try:
             self.image.save(os.path.join(kindle.path.split('documents')[0], 'system', 'thumbnails',
                                          'thumbnail_' + asin + '_EBOK_portrait.jpg'), 'JPEG', optimize=1, quality=85)
