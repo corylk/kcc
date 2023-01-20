@@ -391,7 +391,7 @@ class Cover:
         self.image = ImageOps.autocontrast(self.image)
         if not self.options.forcecolor:
             self.image = self.image.convert('L')
-        self.image.thumbnail(self.options.profileData[1], Image.Resampling.LANCZO)
+        self.image.thumbnail(self.options.profileData[1], Image.Resampling.LANCZOS)
         self.save()
 
     def save(self):
@@ -401,7 +401,7 @@ class Cover:
             raise RuntimeError('Failed to save cover.')
 
     def saveToKindle(self, kindle, asin):
-        self.image = self.image.resize((300, 470), Image.Resampling.LANCZO)
+        self.image = self.image.resize((300, 470), Image.Resampling.LANCZOS)
         try:
             self.image.save(os.path.join(kindle.path.split('documents')[0], 'system', 'thumbnails',
                                          'thumbnail_' + asin + '_EBOK_portrait.jpg'), 'JPEG', optimize=1, quality=85)
