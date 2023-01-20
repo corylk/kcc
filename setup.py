@@ -92,10 +92,11 @@ setuptools.setup(
     packages=['kindlecomicconverter'],
     install_requires=[
         'PyQt5>=5.6.0',
-        'Pillow>=5.2.0',
+        'Pillow>=9.0.0',
         'psutil>=5.0.0',
         'python-slugify>=1.2.1,<8.0.0',
         'raven>=6.0.0',
+        'mozjpeg-lossless-optimization>=1.1.2',
     ],
     classifiers=[],
     zip_safe=False,
